@@ -11,115 +11,450 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+  backgroundColor: Colors.white,
+  title: Image.asset(
+    'assets/linkaja.png', // Ganti dengan path ke gambar di folder assets
+    height: 40, // Atur tinggi gambar sesuai kebutuhan
+    fit: BoxFit.contain,
+  ),
+  actions: [
+    Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: Row(
+        children: [
+          IconButton(
+            icon: Icon(Icons.favorite_border),
+            onPressed: () {
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.support_agent),
+            onPressed: () {
+            },
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+    ),
+  ],
+),
+      body: SingleChildScrollView(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          children: [
+            BalanceSection(),
+            SizedBox(height: 10),
+            ServiceGrid(),
+            SizedBox(height: 5),
+            BannerSection(),
+            BestDealsSection(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavBar(),
+    );
+  }
+}
+
+class BalanceSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Color(0xFFC60B21),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Hi, SATRIA ABRAR SAMBARANA WIRA PRATAMA',
+            style: TextStyle(
+              fontSize: 16, 
+              fontWeight: FontWeight.bold, 
+              color: Colors.white
+            ),
+          ),
+          SizedBox(height: 20),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 160,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Your Balance',
+                          style: TextStyle(
+                            fontSize: 12, 
+                            color: Colors.black
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Rp 9.747',
+                              style: TextStyle(
+                                fontSize: 16, 
+                                fontWeight: FontWeight.bold, 
+                                color: Colors.black
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Container(
+                              width: 17,
+                              height: 17,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFC60B21),
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward, 
+                                color: Colors.white,
+                                size: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 15),
+
+              Container(
+                width: 160,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bonus Balance',
+                          style: TextStyle(
+                            fontSize: 12, 
+                            color: Colors.black
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Rp 0',
+                              style: TextStyle(
+                                fontSize: 16, 
+                                fontWeight: FontWeight.bold, 
+                                color: Colors.black
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Container(
+                              width: 17,
+                              height: 17,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFC60B21),
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward, 
+                                color: Colors.white,
+                                size: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ServiceGrid extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: GridView.count(
+        crossAxisCount: 4,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          ServiceItem(icon: Icons.add_circle_outline, label: 'Topup'),
+          ServiceItem(icon: Icons.remove_circle_outline, label: 'Cashout'),
+          ServiceItem(icon: Icons.arrow_forward, label: 'Send Money'),
+          ServiceItem(icon: Icons.apps, label: 'See All'),
+          ServiceItem(icon: Icons.phone_android, label: 'Pulsa/Data'),
+          ServiceItem(icon: Icons.flash_on, label: 'Electricity'),
+          ServiceItem(icon: Icons.tv, label: 'Cable TV & Internet'),
+          ServiceItem(icon: Icons.credit_card, label: 'Kartu Uang'),
+          ServiceItem(icon: Icons.church, label: 'Gereja'),
+          ServiceItem(icon: Icons.volunteer_activism, label: 'Infaq'),
+          ServiceItem(icon: Icons.card_giftcard, label: 'Other Donations'),
+          ServiceItem(icon: Icons.more_horiz, label: 'More'),
+        ],
+      ),
+    );
+  }
+}
+
+class ServiceItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  ServiceItem({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          radius: 25,
+          backgroundColor: Colors.red[100],
+          child: Icon(icon, color: Color(0xFFC60B21), size: 30),
+        ),
+        SizedBox(height: 8),
+        Text(label, style: TextStyle(fontSize: 12)),
+      ],
+    );
+  }
+}
+
+class BannerSection extends StatefulWidget {
+  @override
+  _BannerSectionState createState() => _BannerSectionState();
+}
+
+class _BannerSectionState extends State<BannerSection> {
+  final List<Map<String, dynamic>> banners = [
+    {
+      'image': 'assets/banner1.jpg',
+      'borderRadius': 10.0,
+    },
+    {
+      'image': 'assets/banner2.jpg',
+      'borderRadius': 10.0,
+    },
+    {
+      'image': 'assets/banner3.jpg',
+      'borderRadius': 10.0,
+    },
+  ];
+
+  final PageController _pageController = PageController(viewportFraction: 1.0);
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.all(16.0),
+          height: 150, // Mengatur tinggi gambar banner menjadi 160
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: banners.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: index == 0 ? 0.0 : 8.0,
+                  right: index == banners.length - 1 ? 0.0 : 8.0,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: banners[index]['bgColor'],
+                    borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
+                    child: Image.asset(
+                      banners[index]['image'],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(banners.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                _pageController.animateToPage(index,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 4),
+                width: 7,
+                height: 7,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == index ? Color(0xFFC60B21) : Colors.grey,
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+}
+
+class BestDealsSection extends StatefulWidget {
+  @override
+  _BestDealsSectionState createState() => _BestDealsSectionState();
+}
+
+class _BestDealsSectionState extends State<BestDealsSection> {
+  final List<Map<String, dynamic>> deals = [
+    {
+      'image': 'assets/banner4.jpg',
+      'borderRadius': 10.0,
+      'description': 'Main Turnamen Mgames & ada hadiah menarik!',
+    },
+    {
+      'image': 'assets/banner5.jpg',
+      'borderRadius': 10.0,
+      'description': 'Pulsa XL & INDOSAT Turun Harga',
+    },
+    {
+      'image': 'assets/banner6.jpg',
+      'borderRadius': 10.0,
+      'description': 'Pakai LinkAja di Grab HEMAT s/d 40.000',
+    },
+  ];
+
+  final PageController _pageController = PageController(viewportFraction: 1.0);
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            'Best Deals',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0),
+          height: 180, // Atur tinggi kontainer lebih besar dari tinggi gambar
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: deals.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: index == 0 ? 0.0 : 8.0,
+                  right: index == deals.length - 1 ? 0.0 : 8.0,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(deals[index]['borderRadius']),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(deals[index]['borderRadius']),
+                        child: Image.asset(
+                          deals[index]['image'],
+                          fit: BoxFit.cover,
+                          height: 140, // Sesuaikan tinggi gambar
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Expanded( // Menambahkan Expanded untuk menghindari overflow
+                      child: Text(
+                        deals[index]['description'],
+                        style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+}
+
+class BottomNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      selectedItemColor: Color(0xFFC60B21),
+      unselectedItemColor: Colors.grey,
+      currentIndex: 0,
+      type: BottomNavigationBarType.fixed,
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+        BottomNavigationBarItem(icon: Icon(Icons.payment), label: 'Pay'),
+        BottomNavigationBarItem(icon: Icon(Icons.inbox), label: 'Inbox'),
+        BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account'),
+      ],
     );
   }
 }
