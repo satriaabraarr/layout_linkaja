@@ -1,18 +1,73 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  // This widget is the root of your application.
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage(),
+    HistoryPage(),
+    AccountPage(),
+    AccountPage(),
+    AccountPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: Scaffold(
+        body: _pages[_selectedIndex], 
+        bottomNavigationBar: Container(
+          height: 63.0, 
+          child: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped, 
+            selectedItemColor: Color(0xFFC60B21),
+            unselectedItemColor: Colors.grey, 
+            iconSize: 24.0, 
+            selectedLabelStyle: TextStyle(fontSize: 12.0), 
+            unselectedLabelStyle: TextStyle(fontSize: 12.0), 
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.payment), 
+                label: 'Pay', 
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.inbox),
+                label: 'Inbox',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Account',
+              ),
+            ],
+            type: BottomNavigationBarType.fixed, 
+          ),
+        ),
+      ),
     );
   }
 }
@@ -24,8 +79,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
   backgroundColor: Colors.white,
   title: Image.asset(
-    'assets/linkaja.png', // Ganti dengan path ke gambar di folder assets
-    height: 40, // Atur tinggi gambar sesuai kebutuhan
+    'assets/linkaja.png', 
+    height: 40, 
     fit: BoxFit.contain,
   ),
   actions: [
@@ -60,7 +115,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
@@ -288,7 +342,7 @@ class _BannerSectionState extends State<BannerSection> {
       children: [
         Container(
           margin: EdgeInsets.all(16.0),
-          height: 150, // Mengatur tinggi gambar banner menjadi 160
+          height: 150, 
           child: PageView.builder(
             controller: _pageController,
             itemCount: banners.length,
@@ -298,22 +352,16 @@ class _BannerSectionState extends State<BannerSection> {
               });
             },
             itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  left: index == 0 ? 0.0 : 8.0,
-                  right: index == banners.length - 1 ? 0.0 : 8.0,
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 0), 
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: banners[index]['bgColor'],
-                    borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
-                    child: Image.asset(
-                      banners[index]['image'],
-                      fit: BoxFit.cover,
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(banners[index]['borderRadius']),
+                  child: Image.asset(
+                    banners[index]['image'],
+                    fit: BoxFit.cover,
                   ),
                 ),
               );
@@ -383,13 +431,13 @@ class _BestDealsSectionState extends State<BestDealsSection> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             'Best Deals',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(height: 10),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16.0),
-          height: 180, // Atur tinggi kontainer lebih besar dari tinggi gambar
+          height: 180, 
           child: PageView.builder(
             controller: _pageController,
             itemCount: deals.length,
@@ -399,12 +447,10 @@ class _BestDealsSectionState extends State<BestDealsSection> {
               });
             },
             itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  left: index == 0 ? 0.0 : 8.0,
-                  right: index == deals.length - 1 ? 0.0 : 8.0,
-                ),
+              return Container(
+                margin: EdgeInsets.only(bottom: 0), 
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -415,18 +461,16 @@ class _BestDealsSectionState extends State<BestDealsSection> {
                         child: Image.asset(
                           deals[index]['image'],
                           fit: BoxFit.cover,
-                          height: 140, // Sesuaikan tinggi gambar
+                          height: 140, 
                           width: double.infinity,
                         ),
                       ),
                     ),
                     SizedBox(height: 8),
-                    Expanded( // Menambahkan Expanded untuk menghindari overflow
-                      child: Text(
-                        deals[index]['description'],
-                        style: TextStyle(fontSize: 12),
-                        textAlign: TextAlign.center,
-                      ),
+                    Text(
+                      deals[index]['description'],
+                      style: TextStyle(fontSize: 15),
+                      textAlign: TextAlign.left,
                     ),
                   ],
                 ),
@@ -440,21 +484,271 @@ class _BestDealsSectionState extends State<BestDealsSection> {
   }
 }
 
-class BottomNavBar extends StatelessWidget {
+class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      selectedItemColor: Color(0xFFC60B21),
-      unselectedItemColor: Colors.grey,
-      currentIndex: 0,
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-        BottomNavigationBarItem(icon: Icon(Icons.payment), label: 'Pay'),
-        BottomNavigationBarItem(icon: Icon(Icons.inbox), label: 'Inbox'),
-        BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account'),
-      ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Transaction History',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          bottom: TabBar(
+            indicatorColor: Color(0xFFC60B21),
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.black,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+            ),
+            tabs: [
+              Tab(text: 'Pending'),
+              Tab(text: 'Done'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Center(child: Text('All Transactions Is Completed!')),
+            DoneTransactionsList(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DoneTransactionsList extends StatelessWidget {
+  final List<Map<String, dynamic>> transactions = [
+    {
+      'title': 'Pay Merchant',
+      'date': '15 Sep 2024, 17:32 WIB',
+      'amount': 'Rp45.400',
+      'status': 'Success',
+      'details': 'Indomaret_purchase',
+    },
+    {
+      'title': 'Pay Merchant',
+      'date': '15 Sep 2024, 17:28 WIB',
+      'amount': 'Rp55.000',
+      'status': 'Success',
+      'details': 'Indomaret_purchase',
+    },
+    {
+      'title': 'Top Up from Bank',
+      'date': '15 Sep 2024, 17:26 WIB',
+      'amount': 'Rp100.000',
+      'status': 'Success',
+      'details': 'Top Up from BCA',
+    },
+    {
+      'title': 'Top Up from Bank',
+      'date': '15 Sep 2024, 17:26 WIB',
+      'amount': 'Rp100.000',
+      'status': 'Success',
+      'details': 'Top Up from BCA',
+    },
+    {
+      'title': 'Top Up from Bank',
+      'date': '15 Sep 2024, 17:26 WIB',
+      'amount': 'Rp100.000',
+      'status': 'Success',
+      'details': 'Top Up from BCA',
+    },
+    {
+      'title': 'Pay QRIS',
+      'date': '31 Aug 2024, 11:49 WIB',
+      'amount': 'Rp21.000',
+      'status': 'Success',
+      'details': 'SBY - MOG TP S1',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: transactions.length,
+      itemBuilder: (context, index) {
+        final transaction = transactions[index];
+        return Card(
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      transaction['title'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      transaction['amount'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, 
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      transaction['date'],
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                    Text(
+                      transaction['status'],
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10), 
+                Text(
+                  transaction['details'],
+                  style: TextStyle(color: const Color.fromARGB(255, 71, 71, 71), fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class AccountPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildProfileHeader(),
+              Divider(thickness: 8),
+              _buildListTile('Account Type', 'FULL SERVICE'),
+              Divider(),
+              _buildListTile('Account Settings', ''),
+              Divider(),
+              _buildListTile('LinkAja Syariah', 'Not Active'),
+              Divider(),
+              _buildListTile('Payment Method', ''),
+              Divider(thickness: 8),
+              _buildListTile('Email', 'satria.abrarr@gmail.com'),
+              Divider(),
+              _buildListTile('Security Question', 'Set'),
+              Divider(),
+              _buildListTile('PIN Settings', ''),
+              Divider(thickness: 8),
+              _buildListTile('Language', 'English'),
+              Divider(),
+              _buildListTile('Terms of Service', ''),
+              Divider(),
+              _buildListTile('Privacy Policy', ''),
+              Divider(thickness: 8),
+              _buildLogoutTile(), 
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileHeader() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Satria Abrar Sambarana Wira Pratama',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text('+6285575739005',
+                    style: TextStyle(fontSize: 16, color: Colors.grey)),
+              ],
+            ),
+          ),
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/foto.jpg'), 
+            radius: 30,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListTile(String title, String subtitle, {bool isLogout = false}) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: isLogout ? Color(0xFFC60B21) : null, 
+            ),
+          ),
+          if (subtitle.isNotEmpty)
+            Row(
+              children: [
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.grey, 
+                  ),
+                ),
+                SizedBox(width: 8), 
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16, 
+                  color: Color(0xFFC60B21), 
+                ),
+              ],
+            ),
+        ],
+      ),
+      onTap: () {
+        
+      },
+    );
+  }
+
+  Widget _buildLogoutTile() {
+    return Container(
+      alignment: Alignment.center, 
+      padding: EdgeInsets.symmetric(vertical: 16), 
+      child: Text(
+        'Log Out',
+        style: TextStyle(
+          fontWeight: FontWeight.bold, 
+          color: Color(0xFFC60B21), 
+          fontSize: 16, 
+        ),
+      ),
     );
   }
 }
